@@ -1,6 +1,6 @@
 %lang starknet
 
-from starkware.starknet.common.syscalls import call_contract, get_block_number
+from starkware.starknet.common.syscalls import call_contract, get_block_number, get_block_timestamp
 from starkware.cairo.common.alloc import alloc
 from starkware.cairo.common.memcpy import memcpy
 
@@ -43,4 +43,12 @@ func call_loop{syscall_ptr : felt*, range_check_ptr}(
         calls=calls + (3 + [calls + 2]),
         result=result + response.retdata_size)
     return (len + response.retdata_size)
+end
+
+@view
+func get_current_block_timestamp{syscall_ptr : felt*, range_check_ptr}() -> (
+        block_timestamp : felt):
+    let (block_timestamp) = get_block_timestamp()
+
+    return (block_timestamp=block_timestamp)
 end
